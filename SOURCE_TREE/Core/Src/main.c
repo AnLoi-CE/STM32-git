@@ -75,7 +75,6 @@ uint8_t segmentCode[10] = {
     0x90
 };
 
-int counter = 0;
 void display7SEG(int num)
 {
 	if (num < 0 || num > 9) return;
@@ -122,80 +121,88 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-  int counter = 0;          // Biến để đếm trên 7-segment
-  int trafficTime = 0;      // Biến để quản lý chu kỳ thời gian cho đèn giao thông
-  int segDelay = 1000;      // 1 giây cho mỗi lần hiển thị 7-segment
-  int totalTime = 0;        // Tổng thời gian hệ thống đã chạy
-
-  while (1)
+  void display7SEG(int num)
   {
-      // Cập nhật 7-segment mỗi 1 giây (1000ms)
-      if (totalTime % segDelay == 0)
-      {
-          display7SEG(counter);
-          counter = (counter + 1) % 10;  // Đếm từ 0 đến 9, rồi quay lại 0
-      }
+  	if (num < 0 || num > 9) return;
+  	    uint8_t code = segmentCode[num];
 
-      // Điều khiển đèn giao thông
-      if (trafficTime < 3000)
-      {
-          // red1, green2 3s
-          HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
+  	    HAL_GPIO_WritePin(GPIOB, a_Pin, (code & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	    HAL_GPIO_WritePin(GPIOB, b_Pin, (code & 0x02) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	    HAL_GPIO_WritePin(GPIOB, c_Pin, (code & 0x04) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	    HAL_GPIO_WritePin(GPIOB, d_Pin, (code & 0x08) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	    HAL_GPIO_WritePin(GPIOB, e_Pin, (code & 0x10) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	    HAL_GPIO_WritePin(GPIOB, f_Pin, (code & 0x20) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	    HAL_GPIO_WritePin(GPIOB, g_Pin, (code & 0x40) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+  	}
 
-          HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_RESET);
-      }
-      else if (trafficTime < 5000)
-      {
-          // red1, yellow2 2s
-          HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
 
-          HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_SET);
-      }
-      else if (trafficTime < 8000)
-      {
-          // green1, red2 3s
-          HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
+int counter = 5;
+while (1)
+{
+  	  for (int i = 3; i < 6; i++)
+		{
+  	        // red1, green2 3s
+  	        HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+  	        HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
+  	        HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
 
-          HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_SET);
-      }
-      else if (trafficTime < 10000)
-      {
-          // yellow1, red2 2s
-          HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
+  	        HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_SET);
+  	        HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_SET);
+  	        HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_RESET);
 
-          HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_RESET);
-          HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_SET);
-          HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_SET);
-      }
+  					display7SEG(counter--);
+  					if (counter < 1) counter = 5;
+  				  HAL_Delay(1000);
+  	    }
 
-      // Sau 10 giây, đặt lại biến thời gian của đèn giao thông
-      if (trafficTime >= 10000)
-      {
-          trafficTime = 0;
-      }
+  	  for (int i = 1; i < 3; i++)
+  	    {
+            // red1, yellow2 2s
+            HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
 
-      // Đợi 1 giây trước khi tiếp tục vòng lặp
-      HAL_Delay(1000);
+            HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_SET);
 
-      // Cộng thêm 1 giây vào thời gian điều khiển
-      totalTime += 1000;
-      trafficTime += 1000;
+            display7SEG(counter--);
+            if (counter < 1) counter = 5;
+            HAL_Delay(1000);
+        }
+
+  	  for (int i = 3; i < 6; i++)
+  			{
+            // green1, red2 3s
+            HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_RESET);
+
+            HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_SET);
+
+            display7SEG(counter--);
+            if (counter < 1) counter = 5;
+            HAL_Delay(1000);
+        }
+
+  	  for (int i = 1; i < 3; i++)
+  	  {
+            // yellow1, red2 2s
+            HAL_GPIO_WritePin(LED_RED_GPIO_Port, LED_RED_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_YELLOW_GPIO_Port, LED_YELLOW_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin, GPIO_PIN_SET);
+
+            HAL_GPIO_WritePin(LED_RED2_GPIO_Port, LED_RED2_Pin, GPIO_PIN_RESET);
+            HAL_GPIO_WritePin(LED_YELLOW2_GPIO_Port, LED_YELLOW2_Pin, GPIO_PIN_SET);
+            HAL_GPIO_WritePin(LED_GREEN2_GPIO_Port, LED_GREEN2_Pin, GPIO_PIN_SET);
+
+            display7SEG(counter--);
+            if (counter < 1) counter = 5;
+            HAL_Delay(1000);
+        }
     /* USER CODE END WHILE */
-
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
