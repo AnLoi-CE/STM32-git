@@ -47,7 +47,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-static void MX_GPIO_Init(void);
+void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -61,6 +61,24 @@ static void MX_GPIO_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
+
+void clearAllClock () {
+    for (int j = 0; j < 12; j++) {
+        HAL_GPIO_WritePin(GPIOB, (1 << j), GPIO_PIN_RESET);
+    }
+}
+//void clearNumberOnClock(int num) {
+//    if (num >= 0 && num <= 11) {
+//        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_RESET);
+//    }
+//}
+
+//void setNumberOnClock(int num) {
+//    if (num >= 0 && num <= 11) {
+//        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_SET);
+//    }
+//}
+
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -91,23 +109,20 @@ int main(void)
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
+  int i = 0;
 while (1)
 	{
-// 	ban đầu tắt:
-	for (int i = 0; i <= 11; i++)
-	    {
-	        HAL_GPIO_WritePin(GPIOB, (1 << i), GPIO_PIN_RESET);
-	    }
-	for (int i = 0; i <= 11; i++)
-	    {
-	      // Set PAx pin (turn on LED)
-
-	      HAL_GPIO_WritePin(GPIOB, (1 << i), GPIO_PIN_SET);
-	      HAL_Delay(500);
-
-	      // Reset PAx pin (turn off LED)
-	      //HAL_GPIO_WritePin(GPIOB, (1 << i), GPIO_PIN_SET);
-	    }
+	if(i >= 0 && i < 12)
+		    {
+				HAL_GPIO_WritePin(GPIOB,(1 << i), GPIO_PIN_SET);
+				HAL_Delay(500);
+				i++;
+		    }
+	else if(i >= 12){
+		clearAllClock ();
+		HAL_Delay(500);
+		i = 0;
+	}
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -155,7 +170,7 @@ void SystemClock_Config(void)
   * @param None
   * @retval None
   */
-static void MX_GPIO_Init(void)
+void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -205,8 +220,7 @@ static void MX_GPIO_Init(void)
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
-void Error_Handler(void)
-{
+void Error_Handler(void){
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
