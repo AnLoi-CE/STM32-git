@@ -1,6 +1,5 @@
-main.c:78:6:display7SEG	24	static
-main.c:124:8:display7SEG	24	static
-main.c:94:5:main	32	static
-main.c:215:6:SystemClock_Config	72	static
-main.c:251:13:MX_GPIO_Init	32	static
-main.c:295:6:Error_Handler	4	static,ignoring_inline_asm
+main.c:108:8:display7SEG	24	static
+main.c:64:5:main	48	static
+main.c:200:6:SystemClock_Config	72	static
+main.c:236:13:MX_GPIO_Init	32	static
+main.c:280:6:Error_Handler	4	static,ignoring_inline_asm
