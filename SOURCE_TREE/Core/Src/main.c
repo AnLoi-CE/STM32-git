@@ -63,21 +63,35 @@ void MX_GPIO_Init(void);
   */
 
 void clearAllClock () {
-    for (int j = 0; j < 12; j++) {
-        HAL_GPIO_WritePin(GPIOB, (1 << j), GPIO_PIN_RESET);
-    }
+// hoặc cách này
+//    for (int j = 0; j < 12; j++) {
+//        HAL_GPIO_WritePin(GPIOB, (1 << j), GPIO_PIN_RESET);  // Tắt tất cả các đèn từ PB0 đến PB11
+//    }
+	HAL_GPIO_WritePin(GPIOB, LED_1_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_2_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_3_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_4_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_5_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_6_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_7_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_8_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_9_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_10_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_11_Pin, GPIO_PIN_RESET);
+	HAL_GPIO_WritePin(GPIOB, LED_12_Pin, GPIO_PIN_RESET);
 }
+
 //void clearNumberOnClock(int num) {
 //    if (num >= 0 && num <= 11) {
 //        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_RESET);
 //    }
 //}
 
-//void setNumberOnClock(int num) {
-//    if (num >= 0 && num <= 11) {
-//        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_SET);
-//    }
-//}
+void setNumberOnClock(int num) {
+    if (num >= 0 && num <= 11) {
+        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_SET);
+    }
+}
 
 int main(void)
 {
@@ -114,13 +128,12 @@ while (1)
 	{
 	if(i >= 0 && i < 12)
 		    {
-				HAL_GPIO_WritePin(GPIOB,(1 << i), GPIO_PIN_SET);
+				setNumberOnClock(i);
 				HAL_Delay(500);
 				i++;
 		    }
 	else if(i >= 12){
 		clearAllClock ();
-		HAL_Delay(500);
 		i = 0;
 	}
     /* USER CODE END WHILE */
