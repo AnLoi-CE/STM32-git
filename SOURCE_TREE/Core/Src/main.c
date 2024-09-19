@@ -110,13 +110,13 @@ int main(void)
   	if (num < 0 || num > 9) return;
   	    uint8_t code = segmentCode[num];
 
-	    HAL_GPIO_WritePin(GPIOA, SEG_0_Pin, (code & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	    HAL_GPIO_WritePin(GPIOA, SEG_1_Pin, (code & 0x02) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	    HAL_GPIO_WritePin(GPIOA, SEG_2_Pin, (code & 0x04) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	    HAL_GPIO_WritePin(GPIOA, SEG_3_Pin, (code & 0x08) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	    HAL_GPIO_WritePin(GPIOA, SEG_4_Pin, (code & 0x10) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	    HAL_GPIO_WritePin(GPIOA, SEG_5_Pin, (code & 0x20) ? GPIO_PIN_SET : GPIO_PIN_RESET);
-	    HAL_GPIO_WritePin(GPIOA, SEG_6_Pin, (code & 0x40) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_0_Pin, (code & 0x01) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_1_Pin, (code & 0x02) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_2_Pin, (code & 0x04) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_3_Pin, (code & 0x08) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_4_Pin, (code & 0x10) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_5_Pin, (code & 0x20) ? GPIO_PIN_SET : GPIO_PIN_RESET);
+		HAL_GPIO_WritePin(GPIOA, SEG_6_Pin, (code & 0x40) ? GPIO_PIN_SET : GPIO_PIN_RESET);
   	}
 
 
