@@ -136,7 +136,7 @@ while (1)
 
 			display7SEG(counter--);
 			if (counter < 1) counter = 5;
-//			HAL_Delay(1000);
+			HAL_Delay(1000);
   	    }
 
   	  for (int i = 1; i < 3; i++)
@@ -152,7 +152,7 @@ while (1)
 
             display7SEG(counter--);
             if (counter < 1) counter = 5;
-//            HAL_Delay(1000);
+            HAL_Delay(1000);
         }
 
   	  for (int i = 3; i < 6; i++)
@@ -168,7 +168,7 @@ while (1)
 
             display7SEG(counter--);
             if (counter < 1) counter = 5;
-//            HAL_Delay(1000);
+            HAL_Delay(1000);
         }
 
   	  for (int i = 1; i < 3; i++)
@@ -184,9 +184,9 @@ while (1)
 
 			display7SEG(counter--);
 			if (counter < 1) counter = 5;
-
+			 HAL_Delay(1000);
         }
-	    HAL_Delay(1000);
+
 
     /* USER CODE END WHILE */
 
