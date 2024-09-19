@@ -258,8 +258,8 @@ int main(void)
  8000230:	f7ff ffaa 	bl	8000188 <setNumberOnClock>
 
           // Giả lập thời gian trôi
-          HAL_Delay(10);  // Mỗi chu kỳ là 1 giây
- 8000234:	200a      	movs	r0, #10
+          HAL_Delay(100);  // Mỗi chu kỳ là 1 giây
+ 8000234:	2064      	movs	r0, #100	; 0x64
  8000236:	f000 f999 	bl	800056c <HAL_Delay>
 
           // Cập nhật giây

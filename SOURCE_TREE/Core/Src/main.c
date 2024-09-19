@@ -47,7 +47,7 @@
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
-void MX_GPIO_Init(void);
+static void MX_GPIO_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -61,40 +61,6 @@ void MX_GPIO_Init(void);
   * @brief  The application entry point.
   * @retval int
   */
-
-void clearAllClock () {
-// hoặc cách này
-    for (int j = 0; j < 12; j++) {
-        HAL_GPIO_WritePin(GPIOB, (1 << j), GPIO_PIN_RESET);
-    }
-//	HAL_GPIO_WritePin(GPIOB, LED_1_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_2_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_3_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_4_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_5_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_6_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_7_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_8_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_9_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_10_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_11_Pin, GPIO_PIN_RESET);
-//	HAL_GPIO_WritePin(GPIOB, LED_12_Pin, GPIO_PIN_RESET);
-}
-
-//void clearNumberOnClock(int num) {
-//        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_RESET);
-//}
-
-void setNumberOnClock(int num) {
-    if (num >= 0 && num <= 11) {
-        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_SET);
-    }
-}
-
-int convertToClockPosition(int value, int maxValue) {
-    return (value * 12) / maxValue;
-}
-
 int main(void)
 {
   /* USER CODE BEGIN 1 */
@@ -114,7 +80,38 @@ int main(void)
   SystemClock_Config();
 
   /* USER CODE BEGIN SysInit */
+  void clearAllClock () {
+  // hoặc cách này
+      for (int j = 0; j < 12; j++) {
+          HAL_GPIO_WritePin(GPIOB, (1 << j), GPIO_PIN_RESET);
+      }
+  //	HAL_GPIO_WritePin(GPIOB, LED_1_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_2_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_3_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_4_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_5_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_6_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_7_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_8_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_9_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_10_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_11_Pin, GPIO_PIN_RESET);
+  //	HAL_GPIO_WritePin(GPIOB, LED_12_Pin, GPIO_PIN_RESET);
+  }
 
+  //void clearNumberOnClock(int num) {
+  //        HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_RESET);
+  //}
+
+  void setNumberOnClock(int num) {
+      if (num >= 0 && num <= 11) {
+          HAL_GPIO_WritePin(GPIOB, (1 << num), GPIO_PIN_SET);
+      }
+  }
+
+  int convertToClockPosition(int value, int maxValue) {
+      return (value * 12) / maxValue;
+  }
   /* USER CODE END SysInit */
 
   /* Initialize all configured peripherals */
@@ -132,20 +129,20 @@ int main(void)
       while (1)
       {
           // Tính toán vị trí trên mặt đồng hồ
-          int hourPos = convertToClockPosition(hour, 12);  // Chuyển đổi giờ sang vị trí từ 0 đến 11
+          int hourPos = convertToClockPosition(hour, 12);  // Chuyển đổi gi�? sang vị trí từ 0 đến 11
           int minutePos = convertToClockPosition(minute, 60);  // Chuyển đổi phút sang vị trí từ 0 đến 11
           int secondPos = convertToClockPosition(second, 60);  // Chuyển đổi giây sang vị trí từ 0 đến 11
 
           // Tắt tất cả các đèn
           clearAllClock();
 
-          // Bật 3 đèn tương ứng với giờ, phút và giây
+          // Bật 3 đèn tương ứng với gi�?, phút và giây
           setNumberOnClock(hourPos);
           setNumberOnClock(minutePos);
           setNumberOnClock(secondPos);
 
-          // Giả lập thời gian trôi
-          HAL_Delay(10);  // Mỗi chu kỳ là 1 giây
+          // Giả lập th�?i gian trôi
+          HAL_Delay(100);  // Mỗi chu kỳ là 1 giây
 
           // Cập nhật giây
           second++;
@@ -155,14 +152,15 @@ int main(void)
           }
           if (minute >= 60) {
               minute = 0;
-              hour++;  // Cập nhật giờ khi phút đạt 60
+              hour++;  // Cập nhật gi�? khi phút đạt 60
           }
           if (hour >= 12) {
-              hour = 0;  // Reset giờ khi đạt 12
+              hour = 0;  // Reset gi�? khi đạt 12
           }
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+
 	}
   /* USER CODE END 3 */
 }
@@ -207,7 +205,7 @@ void SystemClock_Config(void)
   * @param None
   * @retval None
   */
-void MX_GPIO_Init(void)
+static void MX_GPIO_Init(void)
 {
   GPIO_InitTypeDef GPIO_InitStruct = {0};
 
@@ -257,7 +255,8 @@ void MX_GPIO_Init(void)
   * @brief  This function is executed in case of error occurrence.
   * @retval None
   */
-void Error_Handler(void){
+void Error_Handler(void)
+{
   /* USER CODE BEGIN Error_Handler_Debug */
   /* User can add his own implementation to report the HAL error return state */
   __disable_irq();
